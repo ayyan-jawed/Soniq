@@ -30,6 +30,7 @@ export function SiteHeader() {
   const { count, openCart } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [megaPinned, setMegaPinned] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const closeTimer = useRef<number | null>(null);
@@ -55,13 +56,32 @@ export function SiteHeader() {
   }, []);
 
   const scheduleCloseMega = useCallback(() => {
+    if (megaPinned) return;
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
     closeTimer.current = window.setTimeout(() => setMegaOpen(false), 160);
+  }, [megaPinned]);
+
+  const toggleMega = useCallback(() => {
+    if (megaOpen && megaPinned) {
+      setMegaOpen(false);
+      setMegaPinned(false);
+      return;
+    }
+    setMegaOpen(true);
+    setMegaPinned(true);
+  }, [megaOpen, megaPinned]);
+
+  const closeMega = useCallback(() => {
+    setMegaOpen(false);
+    setMegaPinned(false);
   }, []);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setMegaOpen(false);
+      if (event.key === "Escape") {
+        setMegaOpen(false);
+        setMegaPinned(false);
+      }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -72,7 +92,12 @@ export function SiteHeader() {
       <AnnouncementBar />
       <header className="header" data-scrolled={scrolled}>
         <div className="container header__inner">
-          <Wordmark />
+          <div className="header__brand">
+            <Wordmark />
+            <span className="header__descriptor" aria-hidden="true">
+              Audio lab — Copenhagen
+            </span>
+          </div>
 
           <nav className="nav" aria-label="Primary">
             <ul className="nav__list">
@@ -89,10 +114,11 @@ export function SiteHeader() {
                 <button
                   type="button"
                   className="nav__link"
+                  data-active={pathname.startsWith("/collections")}
                   aria-expanded={megaOpen}
                   aria-controls="collections-mega"
                   onFocus={openMega}
-                  onClick={() => setMegaOpen((v) => !v)}
+                  onClick={toggleMega}
                 >
                   Collections
                   <ChevronDown />
@@ -166,7 +192,7 @@ export function SiteHeader() {
                   Grouped by how you use them, not by what they cost. Every model keeps a wired
                   input.
                 </p>
-                <Link href="/shop" className="link-arrow" onClick={() => setMegaOpen(false)}>
+                <Link href="/shop" className="link-arrow" onClick={closeMega}>
                   All headphones
                   <ArrowRight />
                 </Link>
@@ -177,7 +203,7 @@ export function SiteHeader() {
                   key={collection.slug}
                   href={`/collections/${collection.slug}`}
                   className="mega__card"
-                  onClick={() => setMegaOpen(false)}
+                  onClick={closeMega}
                 >
                   <span className="mega__thumb">
                     <Image

@@ -59,7 +59,7 @@ for (const route of routes) {
     await page.waitForTimeout(90);
   }
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(900);
   const data = await page.evaluate(() => {
     const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
     const broken = Array.from(document.images)

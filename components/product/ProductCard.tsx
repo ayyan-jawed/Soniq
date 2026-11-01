@@ -26,6 +26,7 @@ export function ProductCard({ product, sizes, priority, showTagline = true }: Pr
           height={900}
           sizes={sizes}
           priority={priority}
+          quality={82}
           style={{ objectFit: "cover" }}
         />
         {(product.badge || product.compareAt) && (

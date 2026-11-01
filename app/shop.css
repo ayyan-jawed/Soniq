@@ -1,6 +1,83 @@
 /* ==========================================================================
-   Shop catalogue — filters, sort bar, grid, load more, mobile filter sheet.
+   Shop catalogue — hero, filters, sort bar, grid, load more, mobile sheet.
    ========================================================================== */
+
+.shop-hero {
+  padding-block: clamp(2rem, 4vw, 3.5rem) clamp(1.75rem, 3.5vw, 2.75rem);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.shop-hero__grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: end;
+}
+
+.shop-hero__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 5.2vw, 4.9rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin-top: 1.15rem;
+}
+
+.shop-hero__lede {
+  margin-top: 1.25rem;
+  max-width: 44ch;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.shop-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+  max-width: 34rem;
+}
+
+.shop-hero__meta dt {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+
+.shop-hero__meta dd {
+  margin: 0;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.shop-hero__visual {
+  margin: 0;
+}
+
+.shop-hero__visual img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line-soft);
+}
+
+.shop-hero__visual figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.55rem;
+  color: var(--ink-faint);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
 .catalog {
   display: grid;
@@ -191,6 +268,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  margin-left: auto;
 }
 
 .catalog__sort .mono {
@@ -318,6 +396,19 @@
 @media (max-width: 900px) {
   .catalog {
     grid-template-columns: 1fr;
+  }
+
+  .shop-hero__grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .shop-hero__visual {
+    order: 2;
+  }
+
+  .shop-hero__visual img {
+    aspect-ratio: 16 / 10;
   }
 
   .catalog__aside {

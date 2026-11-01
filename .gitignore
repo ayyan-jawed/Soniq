@@ -1,11 +1,37 @@
+# Dependencies
 node_modules/
+
+# Next.js build output
 .next/
 out/
 build/
-.zwork/
-scripts/*.png
-scripts/contact.jpg
-.DS_Store
-*.log
-.env*.local
 next-env.d.ts
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Environment / logs
+.env*.local
+*.log
+
+# Runtime state used by the agent workspace
+.zwork/
+
+# Editors and OS
+.vs/
+.DS_Store
+Thumbs.db
+
+# QA screenshots and audit dumps (generated, not part of the site)
+_audit/
+scripts/shots/
+scripts/*.png
+scripts/*.jpg
+
+# One-off quality-pass scripts (kept on disk, not in the repo)
+scripts/_*
+scripts/audit-*.mjs
+scripts/shot-*.mjs
+scripts/inspect-*.mjs
+scripts/recover_sources.py
+scripts/quality-pass-notes.md

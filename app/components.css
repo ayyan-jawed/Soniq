@@ -155,6 +155,11 @@
   overflow: hidden;
   background: #0d100e;
   border: 1px solid var(--line-soft);
+  transition: border-color 0.35s var(--ease-out);
+}
+
+.product-card:hover .product-card__media {
+  border-color: var(--line-strong);
 }
 
 .product-card__media img {
@@ -203,8 +208,8 @@
 }
 
 .product-card__name {
-  font-size: 0.98rem;
-  letter-spacing: -0.015em;
+  font-size: 1.15rem;
+  letter-spacing: -0.018em;
   font-weight: 500;
   transition: color 0.25s;
 }
@@ -215,15 +220,16 @@
 
 .product-card__tagline {
   color: var(--ink-dim);
-  font-size: 0.8rem;
-  line-height: 1.45;
+  font-size: 0.875rem;
+  line-height: 1.5;
   margin-top: 0.25rem;
   max-width: 34ch;
 }
 
 .product-card__price {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
   text-align: right;
   white-space: nowrap;
   padding-top: 0.1rem;
@@ -343,9 +349,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 1.15rem 0;
+  padding: 1.25rem 0;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   letter-spacing: -0.01em;
   transition: color 0.25s;
 }
@@ -382,69 +388,116 @@
 }
 
 .accordion__inner > div {
-  padding-bottom: 1.3rem;
+  padding-bottom: 1.4rem;
   color: var(--ink-dim);
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   line-height: 1.65;
   max-width: 62ch;
 }
 
-/* ---------- marquee ---------- */
+/* ---------- slogan band ---------- */
 
-.marquee {
+.slogan {
   background: var(--lime);
   color: var(--lime-ink);
-  overflow: hidden;
-  padding-block: clamp(0.9rem, 1.6vw, 1.4rem);
-  border-block: 1px solid rgba(11, 13, 12, 0.15);
+  padding-block: clamp(2.75rem, 6vw, 5.25rem);
+  border-block: 1px solid rgba(11, 13, 12, 0.16);
 }
 
-.marquee__track {
+.slogan__inner {
   display: flex;
-  width: max-content;
-  animation: marqueeMove 38s linear infinite;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  position: relative;
 }
 
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-
-@keyframes marqueeMove {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.marquee__group {
+.slogan__head {
   display: flex;
-  flex: none;
-  align-items: center;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(11, 13, 12, 0.2);
+  padding-bottom: 0.8rem;
 }
 
-.marquee__item {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(1.5rem, 3vw, 2.75rem);
-  padding-right: clamp(1.5rem, 3vw, 2.75rem);
+.slogan__kicker {
+  color: rgba(11, 13, 12, 0.62);
+  font-size: 0.66rem;
+}
+
+.slogan__mark {
+  display: none;
+}
+
+.slogan__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.15rem, 2.3vw, 2rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(2.2rem, 6.3vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
   text-transform: uppercase;
-  white-space: nowrap;
+  margin: 0;
 }
 
-.marquee__star {
-  width: 0.6rem;
-  height: 0.6rem;
-  background: var(--lime-ink);
-  border-radius: 50%;
-  flex: none;
+.slogan__row--serif {
+  text-align: right;
 }
 
+.slogan__note {
+  color: rgba(11, 13, 12, 0.55);
+  font-size: 0.5rem;
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  text-align: right;
+  font-size: 0.58rem;
+}
+
+.slogan__row {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+}
+
+.slogan__row--serif {
+  text-transform: none;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.slogan__row[data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.slogan__text {
+  display: block;
+  transform: translate3d(0, 112%, 0);
+  transition: transform 0.95s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.slogan__row.is-in .slogan__text {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slogan__text {
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .slogan__note {
+    display: none;
+  }
+
+  .slogan__row--serif {
+    text-align: left;
+  }
+}
 /* ---------- newsletter ---------- */
 
 .newsletter__row {
@@ -554,7 +607,7 @@
 
 .empty p {
   color: var(--ink-dim);
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   max-width: 42ch;
   line-height: 1.6;
 }
@@ -573,7 +626,7 @@
 .footer__newsletter-title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-size: clamp(1.2rem, 1.7vw, 1.5rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-top: 0.5rem;
@@ -584,7 +637,7 @@
   border-top: 1px solid var(--line-soft);
   padding-block: 1rem 2rem;
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.62rem;
   letter-spacing: 0.06em;
   line-height: 1.8;
   color: var(--ink-faint);

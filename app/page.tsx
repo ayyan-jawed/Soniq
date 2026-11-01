@@ -5,7 +5,7 @@ import { HeroMedia } from "@/components/home/HeroMedia";
 import { HomeSpotlight } from "@/components/home/HomeSpotlight";
 import { ProductCard } from "@/components/product/ProductCard";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
-import { Marquee } from "@/components/ui/Marquee";
+import { SloganBand } from "@/components/ui/SloganBand";
 import { ArrowRight, ArrowUpRight, ShieldIcon, TruckIcon, RefreshIcon, WaveIcon } from "@/components/ui/icons";
 import { getProduct, formatPrice } from "@/lib/products";
 import { collections } from "@/lib/collections";
@@ -280,8 +280,8 @@ export default function HomePage() {
       {/* ================= SPOTLIGHT ================= */}
       <HomeSpotlight />
 
-      {/* ================= MARQUEE ================= */}
-      <Marquee phrase="Made for the moment. Tuned for everything." />
+      {/* ================= SLOGAN ================= */}
+      <SloganBand first="Made for the moment." second="Tuned for everything." />
 
       {/* ================= LIFESTYLE ================= */}
       <section className="section" aria-labelledby="life-title">
@@ -290,9 +290,9 @@ export default function HomePage() {
             <div data-reveal>
               <p className="eyebrow">03 — In use</p>
               <h2 className="section-head__title" id="life-title">
-                Made for the moment.
+                Three rooms.
                 <br />
-                Built for the day after.
+                Three curves.
               </h2>
             </div>
             <p className="section-head__note" data-reveal style={{ ["--reveal-delay" as string]: "80ms" }}>
@@ -307,7 +307,7 @@ export default function HomePage() {
                 src="/images/life-commute.jpg"
                 alt="Listener wearing obsidian SONIQ headphones on a night station platform as a train arrives"
                 width={1600}
-                height={900}
+                height={2000}
                 sizes="(max-width: 900px) 100vw, 58vw"
               />
               <figcaption>
@@ -320,8 +320,8 @@ export default function HomePage() {
                 <Image
                   src="/images/life-studio.jpg"
                   alt="Producer at a mixing console in a dark studio wearing SONIQ PRO headphones"
-                  width={1200}
-                  height={675}
+                  width={1800}
+                  height={1011}
                   sizes="(max-width: 900px) 100vw, 40vw"
                 />
                 <figcaption>
@@ -333,8 +333,8 @@ export default function HomePage() {
                 <Image
                   src="/images/life-night.jpg"
                   alt="Designer working late at a dark desk wearing warm ivory SONIQ AIR headphones"
-                  width={1200}
-                  height={675}
+                  width={1800}
+                  height={1011}
                   sizes="(max-width: 900px) 100vw, 40vw"
                 />
                 <figcaption>

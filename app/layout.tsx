@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import "./components.css";
+import "./design.css";
 import { CartProvider } from "@/components/cart/cart-context";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CartToast } from "@/components/cart/CartToast";
@@ -15,14 +16,12 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-bricolage",
   display: "swap",
 });
 
 const sans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--font-instrument",
   display: "swap",
 });
@@ -80,6 +79,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <CartProvider>
+          <noscript>
+            <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+          </noscript>
           <a href="#main" className="skip-link">
             Skip to content
           </a>

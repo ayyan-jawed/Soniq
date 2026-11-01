@@ -43,6 +43,52 @@
 .pdp__gallery {
   position: sticky;
   top: calc(var(--header-h) + 1.25rem);
+  overflow-x: clip;
+}
+
+.pdp__stage {
+  position: relative;
+}
+
+.pdp__ambient {
+  position: absolute;
+  inset: -6%;
+  z-index: 0;
+  filter: blur(46px);
+  opacity: 0.7;
+  pointer-events: none;
+  transition: background 0.6s var(--ease-out);
+}
+
+.pdp__stage .gallery {
+  position: relative;
+  z-index: 1;
+}
+
+.pdp__tint {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  transition: background-color 0.5s var(--ease-out), opacity 0.5s var(--ease-out);
+}
+
+.gallery__index {
+  z-index: 3;
+}
+
+.pdp-buybar {
+  display: none;
+}
+
+@keyframes buybarIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
 }
 
 .pdp__gallery-image {
@@ -406,6 +452,43 @@
 
   .pdp__gallery {
     position: static;
+  }
+
+  .pdp-buybar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 95;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem var(--gutter);
+    background: rgba(11, 13, 12, 0.94);
+    backdrop-filter: blur(14px) saturate(120%);
+    border-top: 1px solid var(--line);
+    animation: buybarIn 0.3s var(--ease-out);
+  }
+
+  .pdp-buybar__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .pdp-buybar__meta .mono {
+    font-size: 0.48rem;
+    color: var(--ink-faint);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pdp-buybar__meta strong {
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 
   .pdp-story__inner,

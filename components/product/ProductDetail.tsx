@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/cart/cart-context";
@@ -21,6 +21,32 @@ export function ProductDetail({ product }: { product: Product }) {
   const [colorIndex, setColorIndex] = useState(0);
   const [qty, setQty] = useState(1);
   const { add } = useCart();
+  const buyRef = useRef<HTMLDivElement | null>(null);
+  const [showBuyBar, setShowBuyBar] = useState(false);
+
+  useEffect(() => {
+    const el = buyRef.current;
+    if (!el) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setShowBuyBar(el.getBoundingClientRect().bottom < 0);
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const color = product.colorways[colorIndex];
   const current = images[activeImage] ?? images[0];
@@ -35,35 +61,47 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <div className="pdp">
       <div className="pdp__gallery">
-        <div className="gallery">
-          <div className="gallery__main">
-            <Image
-              key={current.src}
-              src={current.src}
-              alt={current.alt}
-              width={1400}
-              height={1050}
-              sizes="(max-width: 900px) 100vw, 56vw"
-              priority
-              className="pdp__gallery-image"
-            />
-            <span className="gallery__index">
-              {String(activeImage + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
-            </span>
-          </div>
-          <div className="gallery__thumbs" role="group" aria-label="Product images">
-            {images.map((image, index) => (
-              <button
-                key={image.src}
-                type="button"
-                className="gallery__thumb"
-                aria-current={index === activeImage}
-                aria-label={`Show image ${index + 1} of ${images.length}`}
-                onClick={() => setActiveImage(index)}
-              >
-                <Image src={image.src} alt="" width={280} height={210} sizes="120px" />
-              </button>
-            ))}
+        <div className="pdp__stage">
+          <span
+            className="pdp__ambient"
+            aria-hidden="true"
+            style={{ background: `radial-gradient(55% 45% at 50% 45%, ${color.hex}33, transparent 72%)` }}
+          />
+          <div className="gallery">
+            <div className="gallery__main">
+              <Image
+                key={current.src}
+                src={current.src}
+                alt={current.alt}
+                width={1400}
+                height={1050}
+                sizes="(max-width: 900px) 100vw, 56vw"
+                priority
+                className="pdp__gallery-image"
+              />
+              <span
+                className="pdp__tint"
+                aria-hidden="true"
+                style={{ backgroundColor: color.hex, opacity: 0.07 }}
+              />
+              <span className="gallery__index">
+                {String(activeImage + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="gallery__thumbs" role="group" aria-label="Product images">
+              {images.map((image, index) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  className="gallery__thumb"
+                  aria-current={index === activeImage}
+                  aria-label={`Show image ${index + 1} of ${images.length}`}
+                  onClick={() => setActiveImage(index)}
+                >
+                  <Image src={image.src} alt="" width={280} height={210} sizes="120px" quality={80} />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +155,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </p>
         </div>
 
-        <div className="pdp__buy">
+        <div className="pdp__buy" ref={buyRef}>
           <QuantityStepper value={qty} onChange={setQty} label={`${product.name} quantity`} />
           <button
             type="button"
@@ -215,6 +253,24 @@ export function ProductDetail({ product }: { product: Product }) {
           ))}
         </div>
       </div>
+
+      {showBuyBar && (
+        <div className="pdp-buybar">
+          <div className="pdp-buybar__meta">
+            <span className="mono">
+              {product.name} · {color.name}
+            </span>
+            <strong>{formatPrice(product.price)}</strong>
+          </div>
+          <button
+            type="button"
+            className="btn btn--lime btn--sm"
+            onClick={() => add(product.slug, color.name, qty)}
+          >
+            <BagIcon width={14} height={14} /> Add to bag
+          </button>
+        </div>
+      )}
     </div>
   );
 }
